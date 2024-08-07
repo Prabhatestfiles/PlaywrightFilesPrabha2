@@ -19,7 +19,7 @@ export class Login{
     public async login(){
     await this.page.goto(this.url);
     await expect(this.page).toHaveURL('https://adaptiveqat.caresoftglobal.com/') //hard assertion
-    //await expect.soft(this.page).toHaveURL('https://adaptiveqat.caresoftgloba.com/') //Soft assertion 
+    await expect.soft(this.page).toHaveURL('https://adaptiveqat.caresoftglobal.com/') //Soft assertion 
     await this.page.pause();
     await this.username.fill('101479');
     //await this.page.waitFor({state:'visible'})
@@ -49,6 +49,8 @@ export class Login{
     await this. page.locator('[name="Input Folder Path"]').nth(0).fill('Input folder path Prabha');
     await this.page.pause();
     await this. page.locator('[role="textbox"][class="select2-selection__rendered"][title="Select BESS POC"]').click();
+    await this. page.locator('[role="textbox"][class="select2-selection__rendered"][title="Select BESS POC"]').click();
+    await this.page.pause();
     await this.page.locator('[name="Tpdomain"]').selectOption("TPB");
     await this.page.pause()
     await this.page.getByRole('button', { name: ' Draft' }).click();
@@ -158,11 +160,6 @@ export class Login{
 
     // //await this.page.pause();
     
-    }
-    
-    public async Logout(){
-        await this.page.locator('[class="icon-power"]').nth(0).click();
-        console.log("Logout method can able to run")
     }
     }
 
