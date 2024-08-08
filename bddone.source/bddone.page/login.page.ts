@@ -19,7 +19,7 @@ export class Login{
     public async login(){
     await this.page.goto(this.url);
     await expect(this.page).toHaveURL('https://adaptiveqat.caresoftglobal.com/') //hard assertion
-    await expect.soft(this.page).toHaveURL('https://adaptiveqat.caresoftglobal.com/') //Soft assertion 
+    //await expect.soft(this.page).toHaveURL('https://adaptiveqat.caresoftgloba.com/') //Soft assertion 
     await this.page.pause();
     await this.username.fill('101479');
     //await this.page.waitFor({state:'visible'})
@@ -49,19 +49,41 @@ export class Login{
     await this. page.locator('[name="Input Folder Path"]').nth(0).fill('Input folder path Prabha');
     await this.page.pause();
     await this. page.locator('[role="textbox"][class="select2-selection__rendered"][title="Select BESS POC"]').click();
-    await this. page.locator('[role="textbox"][class="select2-selection__rendered"][title="Select BESS POC"]').click();
-    await this.page.pause();
     await this.page.locator('[name="Tpdomain"]').selectOption("TPB");
     await this.page.pause()
-    await this.page.getByRole('button', { name: ' Draft' }).click();
-    await this.page.locator('[role="dialog"][class="swal-modal"]').getByText("Form Values Drafted Successfully").isVisible();
-    await this.page.pause();
-    await this. page.getByRole('button', { name: 'OK' }).click();
+    //await this.page.locator('[class="select2-selection__rendered"]').getByRole('textbox', { name: 'Select Masterlist a' })
+    
+    const dropdown = await this.page.$$('[class="select2-selection__rendered"]')
+    
+    let dropdowntwo=dropdown.length
+    console.log (dropdown.length) //to pring the element le
+        for(const element of dropdown){
+            //while(await element.isVisible()==false)  
+            
+            const text = await element.textContent()                       
+            if(text=='Select Masterlist a')
+                    {   
+                    await this. page.locator('[class="form-label"][id="WorkPackage_OnBehalfofUser"]').click();  
+                    this.page.keyboard.down('PageDown')
+                    await element.click()
+                    await this.page.pause();
+                    break;  
+        }
+    // await this.page.getByRole('button', { name: ' Draft' }).click();
+    // await this.page.locator('[role="dialog"][class="swal-modal"]').getByText("Form Values Drafted Successfully").isVisible();
+    // await this.page.pause();
+    // await this. page.getByRole('button', { name: 'OK' }).click();
 
 
     // //Handson //dropdown values assert ($operator)
     // await this.page.pause();
-    // const dropdown = await this.page.$('[name="Project location"]')
+    
+
+        
+
+        
+
+    
     // if (!dropdown) {
     //     throw new Error('Dropdown element not found');
     // }
@@ -162,6 +184,7 @@ export class Login{
     
     }
     }
+}
 
 
     
