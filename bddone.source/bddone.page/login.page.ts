@@ -176,9 +176,11 @@ export class Login{
                     this.page.keyboard.down('PageDown')
                     await element.click()
                     await this.page.pause();
+    console.log("----------------- Test completed ----------------- ");
     
     // Break statement
                     break;  
+    
         }
 
     }
