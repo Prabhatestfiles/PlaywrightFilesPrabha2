@@ -115,7 +115,7 @@ export class Login{
     //non-retry assertions
     await expect(this.text).toContainText('Add Work Package'); 
     
-    //Print a text that is retrived from attribute
+    //Print a statement
     console.log('text')
     
     await this.page.locator('#WorkPackage').getByRole('heading', { name: 'Work Package' }).click();    
@@ -130,7 +130,7 @@ export class Login{
     //For drag drop//await this.page..setInputFiles('path/to/file/in/playwright/folder)
     //await this.page.locator('[class="btn  btn-outline-secondary"]').click();
     
-    //Wait statement
+    //Wait statement with 3 seconds
     await this.page.waitForTimeout(1000) 
     
     //click the file upload as it is a link button -attachment
