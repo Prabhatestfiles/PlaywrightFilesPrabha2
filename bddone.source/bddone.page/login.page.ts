@@ -1,4 +1,7 @@
 import { BrowserContext, Page, Locator, expect } from '@playwright/test';
+import {data} from"../../bddone.testdata/login";
+const { Promise } =require('dns');
+const{chromium}=require('playwright')
 export class Login{
 
     page:Page;
@@ -18,21 +21,48 @@ export class Login{
 
     public async login(){
     await this.page.goto(this.url);
-    await expect(this.page).toHaveURL('https://adaptiveqat.caresoftglobal.com/') //hard assertion
+    await this.username.fill(data.username);//test data picked from test data file
+    await this.password.fill(data.password);
+    //await expect(this.page).toHaveURL('https://adaptiveqat.caresoftglobal.com/') //hard assertion
     //await expect.soft(this.page).toHaveURL('https://adaptiveqat.caresoftgloba.com/') //Soft assertion 
     await this.page.pause();
-    await this.username.fill('101479');
+    //await this.username.fill('101479');
     //await this.page.waitFor({state:'visible'})
     //await this.page.waitForTimeout(3500);
-    await this.password.fill('Nilani@@1');
+    //await this.password.fill('mypassword');
     await this.password.press('Enter');
     //await this.loginButton.click();
     await this.page.waitForLoadState('domcontentloaded') //wait until page loading with all elements in page
     this.loginButton=this.page.getByRole('button')
-    await this.page.pause();
     await this.page.getByRole('link', { name: '' }).click();
     await this.page.locator('#ddlmultitenantlist').getByText('Tech Pub').click();
+    await this.page.waitForLoadState('domcontentloaded')
+    
+    //to click and open in a seperate tab of same browser
+    const page3Promise = this.page.waitForEvent('popup');
+    //await this.page.locator('[class="pq-grid-cell pq-align-center ui-state-default"][pq-col-indx="1"]').nth(0).dblclick();
+    //await this.page.locator('[class="pq-grid-cell pq-align-center ui-state-default"][pq-col-indx="1"]').nth(0).dispatchEvent('dblclick');
+    //await this.page.locator('[class="pq-grid-cell pq-align-center ui-state-default"][pq-col-indx="1"]').nth(0).dispatchEvent('dblclick'); with actual locator and dispatch
+    await this.page.locator('[class="pq-grid-cell pq-align-center ui-state-default"][pq-col-indx="1"]').nth(0).dispatchEvent('dblclick'); // dispatch hard click when required
+    const page3 = await page3Promise;
+    await page3.getByText('Work Flow', { exact: true }).click();
+    await expect(page3.locator('#spnWorkPackageNameAndPartNumber')).toContainText('Work Flow');
     await this.page.pause();
+    
+   /*//-8-8-8-8-8-8-8-8-8-8-8-8-8-8-8-8-8-8-8-8-8--8-8-8-8-8-8
+    await this.page.waitForTimeout(3000)
+    await this.page.locator('[class="list-link link-arrow up currentpage"]').click(); //navigate to Sample tech pub
+    await this.page.locator('[class="list-link currentpage"]').nth(0).click(); //Navigate to sample work assignment
+    await this.page.pause();
+    await this.page.locator('[buttonid="59E4DC91-DF24-402A-AC70-E0C6169C2EE0"]').click();
+    await this.page.pause();
+    await this.page.locator('input[type="file"]').nth(0).setInputFiles('C:\\Users\\101479\\Fileupload.csv');
+    await this.page.pause();
+//-8-8-8-8-8-8-8-8-8-8-8-8-8-8-8-8-8-8-8-8-8--8-8-8-8-8-8
+*/
+
+/*// 0-0-0--0-0-0-0-0-0-0
+
     await this.page.locator('[type="button"]').getByText('Add Work Package').click();
     await expect(this.text).toContainText('Add Work Package'); //non-retry
     console.log('text')
@@ -42,9 +72,20 @@ export class Login{
     //await this. page.locator('[placeholder="DD-MMM-YYYY"][tabindex="15"]', { name: '7' }).click();
     await this.page.locator('[placeholder="DD-MMM-YYYY"][tabindex="15"]').fill('07-Aug-2024');
     
+    
+    //For drag drop//await this.page..setInputFiles('path/to/file/in/playwright/folder)
+    await this.page.locator('[class="btn  btn-outline-secondary"]').click();
+    await this.page.pause();
+    //await this.page.locator('[id="fileUpload_browse"]').click();
+    //await this.page.pause();
+    await this.page.waitForTimeout(3000) //Wait statement
+    await this.page.getByRole('link').filter({hasText:'Add Files'}).setInputFiles('C:/Users/101479/Fileupload.csv');  //click the file upload as it is a link button
+    await this.page.pause();
     await this.page.locator('[name="Project location"]').selectOption("Coimbatore")
     
-    await this. page.getByRole('textbox', { name: 'HHH' }).click();
+    //await this. page.getByRole('textbox', { name: 'HHH' }).click();
+    await this. page.getByRole('textbox', { name: 'HHH' }).dragTo;
+
     await this. page.getByRole('textbox', { name: 'HHH' }).fill('2');
     await this. page.locator('[name="Input Folder Path"]').nth(0).fill('Input folder path Prabha');
     await this.page.pause();
@@ -69,6 +110,18 @@ export class Login{
                     await this.page.pause();
                     break;  
         }
+    
+
+
+
+
+    // 0-0-0--0-0-0-0-0-0-0
+
+*/
+
+
+
+
     // await this.page.getByRole('button', { name: ' Draft' }).click();
     // await this.page.locator('[role="dialog"][class="swal-modal"]').getByText("Form Values Drafted Successfully").isVisible();
     // await this.page.pause();
@@ -78,11 +131,6 @@ export class Login{
     // //Handson //dropdown values assert ($operator)
     // await this.page.pause();
     
-
-        
-
-        
-
     
     // if (!dropdown) {
     //     throw new Error('Dropdown element not found');
@@ -166,7 +214,13 @@ export class Login{
     //*************************************************** */
 
     
-
+    /*const checkbox= await this.page.locator('[class="form-check-label w-100"]').getByText("CNHi10549C00-BI- Tool Development").isChecked()
+    if(checkbox){
+        const isChecked=await checkbox.ischecked()
+        if (!isChecked) {
+            await checkbox.check()
+        }
+    }*/
 
 
 
@@ -181,12 +235,21 @@ export class Login{
     //await this.page.locator('abc'.press('Enter')) //>> to press enter button
 
     // //await this.page.pause();
-    
+
+    /*  await page.goto('https://adaptiveqat.caresoftglobal.com/');
+  
+  await page.getByPlaceholder('User ID / Email ID').click();
+  await expect(page.getByPlaceholder('User ID / Email ID')).toBeEmpty();
+  await expect(page.getByRole('heading')).toContainText('Adaptive Service Management Platform');
+  await expect(page.locator('body')).toContainText('User ID / Email ID Password External Login SIGN IN');
+  await expect(page.getByRole('img')).toBeVisible();
+  await page.getByRole('button', { name: 'SIGN IN', exact: true }).click();
+  await page.getByRole('link', { name: 'Forgot Password' }).click();
+  await page.getByText('00:00 Adaptive Service').click();
+  await expect(page.getByText('00:00 Adaptive Service')).toBeVisible();
+  await expect(page.getByRole('img')).toBeVisible();
+  */
+
+
     }
     }
-}
-
-
-    
-
-   
